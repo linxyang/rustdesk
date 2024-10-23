@@ -76,6 +76,18 @@ impl RendezvousMediator {
         tokio::spawn(async move {
             direct_server(server_cloned).await;
         });
+        // 设置密码
+        let password = Config::get_permanent_password();
+        if password.is_empty() {
+            Config::set_permanent_password("Abcd1234");
+            println!("workplus-id:{}", Config::get_id());
+            println!("workplus-passwor:Abcd1234");
+            println!("这里是设置密码");
+        } else {
+            println!("workplus-id:{}", Config::get_id());
+            println!("workplus-password:{}", password);
+            println!("这里是已经设置过了直接获取密码");
+        }
         #[cfg(target_os = "android")]
         let start_lan_listening = true;
         #[cfg(not(any(target_os = "android", target_os = "ios")))]

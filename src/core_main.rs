@@ -308,15 +308,15 @@ pub fn core_main() -> Option<Vec<String>> {
             return None;
         } else if args[0] == "--password" {
             if args.len() == 2 {
-                if crate::platform::is_installed() && is_root() {
-                    if let Err(err) = crate::ipc::set_permanent_password(args[1].to_owned()) {
-                        println!("{err}");
-                    } else {
-                        println!("Done!");
-                    }
+                // if crate::platform::is_installed() && is_root() {
+                if let Err(err) = crate::ipc::set_permanent_password(args[1].to_owned()) {
+                    println!("{err}");
                 } else {
-                    println!("Installation and administrative privileges required!");
+                    println!("Done!");
                 }
+                // } else {
+                //     println!("Installation and administrative privileges required!");
+                // }
             }
             return None;
         } else if args[0] == "--set-unlock-pin" {
@@ -349,6 +349,16 @@ pub fn core_main() -> Option<Vec<String>> {
                     println!("Installation and administrative privileges required!");
                 }
             }
+            return None;
+        } else if args[0] == "--get-permanent-password" {
+            println!("{}", crate::ipc::get_permanent_password());
+            return None;
+        } else if args[0] == "--get-id-password" {
+            println!("id={}", crate::ipc::get_id());
+            println!(
+                "permanent_password={}",
+                crate::ipc::get_permanent_password()
+            );
             return None;
         } else if args[0] == "--config" {
             if args.len() == 2 && !args[0].contains("host=") {
